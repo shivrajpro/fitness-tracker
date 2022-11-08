@@ -1,0 +1,26 @@
+.example-container {
+    height: 100vh;
+}
+
+.mat-toolbar{
+    font-size: 16px;
+}
+
+mat-sidenav{
+    width: 250px;
+}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+a:hover, a:active{
+    color: lightgray;
+}
+
+.nav-items{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
