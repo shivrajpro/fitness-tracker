@@ -1,0 +1,10 @@
+mat-list-item{
+    cursor: pointer;
+
+    a{
+        padding-left: 6px;
+    }
+}
+.mat-list-item:hover{
+    background-color: lightgray;
+}
