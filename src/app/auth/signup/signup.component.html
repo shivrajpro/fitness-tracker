@@ -27,3 +27,24 @@
         <button type="submit" mat-raised-button color="primary" [disabled]="f.invalid" >Submit</button>
     </form>
 </section>
+
+<!-- ASSIGNEMENT PART -->
+<form [formGroup]='loginForm' novalidate class="form" (ngSubmit)="onLogin()" >
+    <mat-form-field>
+        <input matInput formControlName='email'
+        type="text"
+        class="form-control"
+        placeholder="Enter Email" required>
+        <mat-error *ngIf="hasError('email', 'required')">Please enter email id</mat-error>
+        <mat-error *ngIf="hasError('email', 'email')">Email Id is invalid</mat-error>
+    </mat-form-field>
+    <mat-form-field hintLabel="should be atleast 6 characters long">
+        <input matInput formControlName='password'
+        type="password"
+        class="form-control"
+        placeholder="Enter Password" required>
+        <mat-error>Please enter password</mat-error>
+    </mat-form-field>
+    <button type="submit" mat-raised-button color="primary" [disabled]="loginForm.invalid" >Submit</button>
+
+</form>
