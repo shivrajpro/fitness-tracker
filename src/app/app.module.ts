@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { NewTrainingComponent } from './training/new-training/new-training.component';
+import { StopTrainingDialogComponent } from './training/stop-training-dialog/stop-training-dialog.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NewTrainingComponent } from './training/new-training/new-training.compo
     WelcomeComponent,
     HeaderComponent,
     SidenavListComponent,
-    NewTrainingComponent
+    NewTrainingComponent,
+    StopTrainingDialogComponent
   ],
   imports: [
     BrowserModule,
