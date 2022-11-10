@@ -18,7 +18,12 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  onLogin(){}
+  onLogin(){
+    this.authService.login({
+      email:this.loginForm.value.email,
+      password:this.loginForm.value.password
+    })
+  }
 
   hasError = (controlName: string, errorName: string) =>{
     return this.loginForm.controls[controlName].hasError(errorName);
