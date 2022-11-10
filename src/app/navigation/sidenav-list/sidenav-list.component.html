@@ -1,17 +1,17 @@
 <mat-list role="list">
-    <mat-list-item (click)="onClose()" routerLink="/signup" role="listitem">
+    <mat-list-item *ngIf="!isAuth" (click)="onClose()" routerLink="/signup" role="listitem">
         <mat-icon>face</mat-icon>
         <a>Sign Up</a>
     </mat-list-item>
-    <mat-list-item (click)="onClose()" routerLink="/login" role="listitem">
+    <mat-list-item *ngIf="!isAuth" (click)="onClose()" routerLink="/login" role="listitem">
         <mat-icon>input</mat-icon>
         <a>Login</a>
     </mat-list-item>
-    <mat-list-item (click)="onClose()" routerLink="/training" role="listitem">
+    <mat-list-item *ngIf="isAuth" (click)="onClose()" routerLink="/training" role="listitem">
         <mat-icon>fitness_center</mat-icon>
         <a>Training</a>
     </mat-list-item>
-    <mat-list-item (click)="onClose()">
+    <mat-list-item *ngIf="isAuth" (click)="onClose(); onLogout()">
         <mat-icon>eject</mat-icon>
         <a>Logout</a>
     </mat-list-item>
