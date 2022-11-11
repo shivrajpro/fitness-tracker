@@ -77,7 +77,8 @@ const modules = [
   MatTooltipModule,
   MatPaginatorModule,
   MatSortModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatTableModule
 ]
 
 @NgModule({
