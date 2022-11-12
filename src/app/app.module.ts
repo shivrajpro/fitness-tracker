@@ -21,6 +21,7 @@ import { AngularFirestoreModule } from "@angular/fire/compat/firestore";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { environment } from 'src/environments/environment';
 import { AuthModule } from './auth/auth.module';
+import { SharedModule } from './shared/shared.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,12 +36,9 @@ import { AuthModule } from './auth/auth.module';
   ],
   imports: [
     BrowserModule,
+    SharedModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule,
-    FlexLayoutModule,
-    FormsModule,
-    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
