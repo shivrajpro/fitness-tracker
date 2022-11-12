@@ -27,8 +27,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AuthModule,
-    TrainingModule
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
