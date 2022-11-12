@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from "@angular/fire/compat";
-import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { AngularFirestoreModule } from "@angular/fire/compat/firestore";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,13 +10,9 @@ import { AuthModule } from './auth/auth.module';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { SharedModule } from './shared/shared.module';
-import { CurrentTrainingComponent } from './training/current-training/current-training.component';
-import { NewTrainingComponent } from './training/new-training/new-training.component';
-import { PastTrainingsComponent } from './training/past-trainings/past-trainings.component';
-import { StopTrainingDialogComponent } from './training/stop-training-dialog/stop-training-dialog.component';
-import { TrainingComponent } from './training/training.component';
 import { TrainingModule } from './training/training.module';
 import { WelcomeComponent } from './welcome/welcome.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +27,6 @@ import { WelcomeComponent } from './welcome/welcome.component';
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    AngularFireAuthModule,
     AuthModule,
     TrainingModule
   ],
