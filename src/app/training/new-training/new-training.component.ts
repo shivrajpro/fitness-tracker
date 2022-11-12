@@ -13,6 +13,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
   @Output()  trainingStart = new EventEmitter<void>();
   exercises:Exercise[] = [];
   exercisesSub!:Subscription;
+  isLoadingExercises = true;
 
   constructor(private trainingService: TrainingService) { }
 
@@ -22,6 +23,7 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
     this.trainingService.fetchAvailableExercises();
     this.exercisesSub = this.trainingService.exercisesChanged.subscribe((exercises)=>{
       this.exercises = exercises;
+      this.isLoadingExercises = false;
     })
   }
 
