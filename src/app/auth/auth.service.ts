@@ -3,7 +3,8 @@ import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import * as fromApp from "../app.reducer";
+import * as fromApp from "../store/app.reducer";
+import * as UIActions from  '../shared/store/ui.actions'
 import { UiService } from '../shared/ui.service';
 import { TrainingService } from '../training/training.service';
 import { AuthData } from './models/auth-data.model';
@@ -18,7 +19,7 @@ export class AuthService {
     private trainingServicee:TrainingService,
     private afAuth:AngularFireAuth,
     private uiService: UiService,
-    private store:Store<{ui:fromApp.State}>
+    private store:Store<{ui:fromApp.AppState}>
     ) { }
 
   initAuthListener(){
@@ -42,17 +43,17 @@ export class AuthService {
     //   userId: Math.round(Math.random() * 10000).toString()
     // }
     // this.uiService.loadingStateChanged.next(true);
-    this.store.dispatch({type:'START_LOADING'});
+    this.store.dispatch(UIActions.setLoading({isLoading:true}));
 
     this.afAuth.createUserWithEmailAndPassword(authData.email, authData.password)
     .then((result)=>{
       // console.log('result',result);
       // this.uiService.loadingStateChanged.next(false);
-      this.store.dispatch({type:'STOP_LOADING'});
+          this.store.dispatch(UIActions.setLoading({isLoading:false}));
     }).catch(error=>{
       // console.log(error);
       // this.uiService.loadingStateChanged.next(false);
-      this.store.dispatch({type:'STOP_LOADING'});
+          this.store.dispatch(UIActions.setLoading({isLoading:false}));
       this.uiService.showSnackbar(error.message, null, 3000);
     })
   }
@@ -63,18 +64,18 @@ export class AuthService {
     //   userId: Math.round(Math.random() * 10000).toString()
     // }
     // this.uiService.loadingStateChanged.next(true);
-    this.store.dispatch({type:'START_LOADING'});
+    this.store.dispatch(UIActions.setLoading({isLoading:true}));
 
     this.afAuth.signInWithEmailAndPassword(authData.email, authData.password)
     .then((result)=>{
       // console.log('result',result);
-      this.store.dispatch({type:'STOP_LOADING'});
+    this.store.dispatch(UIActions.setLoading({isLoading:false}));
       this.uiService.loadingStateChanged.next(false);
     }).catch(error=>{
       // console.log(error);
       this.uiService.showSnackbar(error.message, null, 3000);
       // this.uiService.loadingStateChanged.next(false);
-      this.store.dispatch({type:'STOP_LOADING'});
+      this.store.dispatch(UIActions.setLoading({isLoading:false}));
     })
   }
 

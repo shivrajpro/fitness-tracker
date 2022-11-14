@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UiService } from 'src/app/shared/ui.service';
-import { AuthService } from '../auth.service';
-import { map, Observable, Subscription } from "rxjs";
-import * as fromApp from "../../app.reducer";
 import { Store } from '@ngrx/store';
-import { state } from '@angular/animations';
+import { Observable, Subscription } from "rxjs";
+import { UiService } from 'src/app/shared/ui.service';
+import * as fromApp from "../../store/app.reducer";
+import { AuthService } from '../auth.service';
+import * as UI from '../../shared/store/ui.selectors'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,18 +16,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoading = false;
   loadingSubs!:Subscription;
   isLoading$!: Observable<boolean>;
+  // isLoading = false;
 
   constructor(private authService:AuthService,
     private uiService:UiService,
-    private store:Store<{ui:fromApp.State}>
+    private store:Store<{ui:fromApp.AppState}>
     ) { }
 
   ngOnInit(): void {
-    this.isLoading$ = this.store.pipe(
-      map((data)=>{
-        return data.ui.isLoading
-      })
-    );
+    this.isLoading$ = this.store.select(UI.isLoading);
 
     this.loadingSubs = this.uiService.loadingStateChanged.subscribe((isLoading)=>{
       this.isLoading = isLoading;
