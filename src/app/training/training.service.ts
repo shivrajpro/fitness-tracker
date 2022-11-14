@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Store } from '@ngrx/store';
 import { map, Subject, Subscription } from 'rxjs';
 import { Exercise } from '../auth/models/exercise.model';
-
+import * as fromApp from "../store/app.reducer";
+import * as UIActions from "../shared/store/ui.actions";
 const dummyData = [];
 @Injectable({
   providedIn: 'root',
 })
 export class TrainingService {
-  constructor(private db: AngularFirestore) {}
+  constructor(private db: AngularFirestore,
+    private store:Store<fromApp.AppState>
+    ) {}
 
   exerciseChanged = new Subject<Exercise | undefined | null>();
   exercisesChanged = new Subject<Exercise[]>();
@@ -23,6 +27,7 @@ export class TrainingService {
   //   return this.availableExercises.slice();
   // }
   fetchAvailableExercises() {
+    this.store.dispatch(UIActions.setLoading({isLoading:true}));
     this.fbSubs.push(
       this.db
         .collection('availableExercises')
@@ -46,9 +51,11 @@ export class TrainingService {
           next: (exercises) => {
             this.availableExercises = exercises;
             this.exercisesChanged.next([...this.availableExercises]);
+            this.store.dispatch(UIActions.setLoading({isLoading:false}));
           },
           error: () => {
             this.exercisesChanged.next([]);
+            this.store.dispatch(UIActions.setLoading({isLoading:false}));
           }
         })
     );
