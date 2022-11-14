@@ -17,12 +17,18 @@ export const trainingReducer = createReducer(
         }
     }),
     on(TrainingActions.setActiveExercise, (state, action)=>{
-        const exercise = state.availableExercises
-        .find(ex=> ex.id === action.selectedId);
-
+        if(action.selectedId){
+            const exercise = state.availableExercises
+            .find(ex=> ex.id === action.selectedId);
+    
+            return {
+                ...state,
+                activeExercise:exercise || null
+            }
+        }
         return {
             ...state,
-            activeExercise:exercise || null
+            activeExercise: null
         }
     })
 )

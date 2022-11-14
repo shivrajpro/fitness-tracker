@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Store } from '@ngrx/store';
-import { map, Subject, Subscription } from 'rxjs';
+import { map, Subject, Subscription, take } from 'rxjs';
 import { Exercise } from '../auth/models/exercise.model';
-import * as fromApp from "../store/app.reducer";
 import * as UIActions from "../shared/store/ui.actions";
-import * as fromTraining from "./store/training.state";
 import * as TrainingActions from "./store/training.actions";
+import * as TrainingSelectors from "./store/training.selectors";
+import * as fromTraining from "./store/training.state";
 
 const dummyData = [];
 @Injectable({
@@ -67,39 +67,40 @@ export class TrainingService {
   }
 
   startExercise(selectedId: string) {
-    // this.db.doc('availableExercises/'+selectedId).update({lastSelected:new Date()});
-
-    this.runningExercise = this.availableExercises.find(
-      (ex) => ex.id === selectedId
-    );
-    // this.exerciseChanged.next(this.runningExercise);
     this.store.dispatch(TrainingActions.setActiveExercise(
       {selectedId})
     );
   }
 
   completeExercise() {
-    this.addDataToDb({
-      ...this.runningExercise!,
-      date: new Date(),
-      state: 'completed',
-    });
+    this.store.select(TrainingSelectors.getActiveExercise).pipe(take(1))
+    .subscribe((ex:any)=>{
+      console.log('data',ex);
 
-    this.runningExercise = null;
-    this.exerciseChanged.next(null);
+      this.addDataToDb({
+        ...ex,
+        date: new Date(),
+        state: 'completed',
+      });
+
+      this.store.dispatch(TrainingActions.setActiveExercise({selectedId:null}));
+    })    
   }
 
   cancelExercise(progress: number) {
-    this.addDataToDb({
-      ...this.runningExercise!,
-      duration: this.runningExercise?.duration! * (progress / 100) || 0,
-      calories: this.runningExercise?.calories! * (progress / 100) || 0,
-      date: new Date(),
-      state: 'cancelled',
-    });
+    this.store.select(TrainingSelectors.getActiveExercise).pipe(take(1))
+    .subscribe((ex:any)=>{
+      this.addDataToDb({
+        ...this.runningExercise!,
+        duration: this.runningExercise?.duration! * (progress / 100) || 0,
+        calories: this.runningExercise?.calories! * (progress / 100) || 0,
+        date: new Date(),
+        state: 'cancelled',
+      });
 
-    this.runningExercise = null;
-    this.exerciseChanged.next(null);
+      this.store.dispatch(TrainingActions.setActiveExercise({selectedId:null}));
+    })
+
   }
 
   getRunningExercise() {
