@@ -14,6 +14,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import { SharedModule } from './shared/shared.module';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { uiReducer } from './shared/store/ui.reducer';
+import { authReducer } from './auth/store/auth.reducer';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { uiReducer } from './shared/store/ui.reducer';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AuthModule,
-    StoreModule.forRoot({ui:uiReducer})
+    StoreModule.forRoot({ui:uiReducer, auth:authReducer})
   ],
   providers: [],
   bootstrap: [AppComponent]
