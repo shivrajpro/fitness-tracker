@@ -17,5 +17,5 @@ export const setFinishedExercises = createAction(
 
 export const setActiveExercise = createAction(
     SET_ACTIVE_TRAINING,
-  props<{ exercise:Exercise }>()
+  props<{ selectedId:String }>()
 )

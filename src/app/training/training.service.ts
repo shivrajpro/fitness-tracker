@@ -5,13 +5,16 @@ import { map, Subject, Subscription } from 'rxjs';
 import { Exercise } from '../auth/models/exercise.model';
 import * as fromApp from "../store/app.reducer";
 import * as UIActions from "../shared/store/ui.actions";
+import * as fromTraining from "./store/training.state";
+import * as TrainingActions from "./store/training.actions";
+
 const dummyData = [];
 @Injectable({
   providedIn: 'root',
 })
 export class TrainingService {
   constructor(private db: AngularFirestore,
-    private store:Store<fromApp.AppState>
+    private store:Store<fromTraining.State>
     ) {}
 
   exerciseChanged = new Subject<Exercise | undefined | null>();
@@ -49,12 +52,14 @@ export class TrainingService {
         )
         .subscribe({
           next: (exercises) => {
-            this.availableExercises = exercises;
-            this.exercisesChanged.next([...this.availableExercises]);
+            // this.availableExercises = exercises;
+            // this.exercisesChanged.next([...this.availableExercises]);
+            this.store.dispatch(TrainingActions.setAvailableExercises({exercises}));
             this.store.dispatch(UIActions.setLoading({isLoading:false}));
           },
           error: () => {
-            this.exercisesChanged.next([]);
+            // this.exercisesChanged.next([]);
+            this.store.dispatch(TrainingActions.setAvailableExercises({exercises:[]}));
             this.store.dispatch(UIActions.setLoading({isLoading:false}));
           }
         })
@@ -67,7 +72,10 @@ export class TrainingService {
     this.runningExercise = this.availableExercises.find(
       (ex) => ex.id === selectedId
     );
-    this.exerciseChanged.next(this.runningExercise);
+    // this.exerciseChanged.next(this.runningExercise);
+    this.store.dispatch(TrainingActions.setActiveExercise(
+      {selectedId})
+    );
   }
 
   completeExercise() {
@@ -93,6 +101,7 @@ export class TrainingService {
     this.runningExercise = null;
     this.exerciseChanged.next(null);
   }
+
   getRunningExercise() {
     return { ...this.runningExercise };
   }
@@ -103,8 +112,11 @@ export class TrainingService {
         .collection('finishedExercises')
         .valueChanges()
         .subscribe((exercises) => {
-          console.log('exercises', exercises);
-          this.finishedExercisesChanged.next(exercises as Exercise[]);
+          // console.log('exercises', exercises);
+          // this.finishedExercisesChanged.next(exercises as Exercise[]);
+          this.store.dispatch(
+            TrainingActions.setFinishedExercises({exercises:exercises as Exercise[]})
+          );
         })
     );
   }

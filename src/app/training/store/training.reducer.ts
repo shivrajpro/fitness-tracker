@@ -17,9 +17,12 @@ export const trainingReducer = createReducer(
         }
     }),
     on(TrainingActions.setActiveExercise, (state, action)=>{
+        const exercise = state.availableExercises
+        .find(ex=> ex.id === action.selectedId);
+
         return {
             ...state,
-            activeExercise:action.exercise
+            activeExercise:exercise || null
         }
     })
 )
