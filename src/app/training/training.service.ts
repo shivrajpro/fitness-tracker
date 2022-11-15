@@ -63,7 +63,7 @@ export class TrainingService {
   }
 
   startExercise(selectedId: string) {
-    this.store.dispatch(TrainingActions.setActiveExercise(
+    this.store.dispatch(TrainingActions.startExercise(
       {selectedId})
     );
   }
@@ -71,7 +71,7 @@ export class TrainingService {
   completeExercise() {
     this.store.select(TrainingSelectors.getActiveExercise).pipe(take(1))
     .subscribe((ex:any)=>{
-      console.log('data',ex);
+      // console.log('data',ex);
       if(ex && ex.name){
         this.addDataToDb({
           ...ex,
@@ -80,7 +80,7 @@ export class TrainingService {
         });
       }
 
-      this.store.dispatch(TrainingActions.setActiveExercise({selectedId:null}));
+      this.store.dispatch(TrainingActions.stopExercise({exercise:null}));
     })    
   }
 
@@ -97,7 +97,7 @@ export class TrainingService {
         });
       }
 
-      this.store.dispatch(TrainingActions.setActiveExercise({selectedId:null}));
+      this.store.dispatch(TrainingActions.stopExercise({exercise:null}));
     })
 
   }

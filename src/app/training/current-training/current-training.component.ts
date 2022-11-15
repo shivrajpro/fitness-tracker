@@ -5,6 +5,7 @@ import { TrainingService } from '../training.service';
 import * as fromTraining from "../store/training.state";
 import { Store } from '@ngrx/store';
 import * as TrainingSelectors from "../store/training.selectors";
+import { take } from 'rxjs';
 @Component({
   selector: 'app-current-training',
   templateUrl: './current-training.component.html',
@@ -27,8 +28,9 @@ export class CurrentTrainingComponent implements OnInit {
   startOrResumeTimer() {
 
     this.store.select(TrainingSelectors.getActiveExercise)
+    .pipe(take(1))
     .subscribe((ex:any)=>{
-      console.log('data',ex);
+      // console.log('data',ex);
       if(ex){
         const duration = ex.duration || 0;
         const step = (duration/100)*1000;

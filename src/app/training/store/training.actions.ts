@@ -3,7 +3,8 @@ import { Exercise } from 'src/app/auth/models/exercise.model';
 
 export const SET_AVAIALBLE_EXERCISES = '[Training] Set Available Exercises';
 export const SET_FINISHED_EXERCISES = '[Training] Set Finished Exercises';
-export const SET_ACTIVE_TRAINING = '[Training] Set Active Training';
+export const START_TRAINING = '[Training] Start Training';
+export const STOP_TRAINING = '[Training] Stop Training';
 
 export const setAvailableExercises = createAction(
   SET_AVAIALBLE_EXERCISES,
@@ -15,7 +16,12 @@ export const setFinishedExercises = createAction(
   props<{ exercises:Exercise[] }>()
 )
 
-export const setActiveExercise = createAction(
-    SET_ACTIVE_TRAINING,
+export const startExercise = createAction(
+    START_TRAINING,
   props<{ selectedId:String | null }>()
+)
+
+export const stopExercise = createAction(
+  STOP_TRAINING,
+  props<{ exercise:Exercise | null }>()
 )

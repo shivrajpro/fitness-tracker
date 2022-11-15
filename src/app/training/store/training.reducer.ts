@@ -16,7 +16,7 @@ export const trainingReducer = createReducer(
             finishedExercises:action.exercises
         }
     }),
-    on(TrainingActions.setActiveExercise, (state, action)=>{
+    on(TrainingActions.startExercise, (state, action)=>{
         if(action.selectedId){
             const exercise = state.availableExercises
             .find(ex=> ex.id === action.selectedId);
@@ -26,6 +26,12 @@ export const trainingReducer = createReducer(
                 activeExercise:exercise || null
             }
         }
+        return {
+            ...state,
+            activeExercise: null
+        }
+    }),
+    on(TrainingActions.stopExercise, (state, action)=>{
         return {
             ...state,
             activeExercise: null
